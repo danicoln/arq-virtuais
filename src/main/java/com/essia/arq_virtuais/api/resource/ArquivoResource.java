@@ -28,7 +28,7 @@ public class ArquivoResource {
     }
 
     @PostMapping
-    public ResponseEntity<ArquivoModel> inserir(@PathVariable ArquivoInput input) {
+    public ResponseEntity<ArquivoModel> inserir(@RequestBody ArquivoInput input) {
         Arquivo arquivo = mapper.toEntity(input);
         ArquivoModel model = mapper.toModel(service.salvar(arquivo));
         return ResponseEntity.status(HttpStatus.CREATED).body(model);

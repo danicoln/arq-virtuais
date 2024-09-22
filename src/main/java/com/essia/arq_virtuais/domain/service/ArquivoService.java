@@ -1,6 +1,7 @@
 package com.essia.arq_virtuais.domain.service;
 
 import com.essia.arq_virtuais.domain.exception.ArquivoNaoEncontradoException;
+import com.essia.arq_virtuais.domain.exception.NegocioException;
 import com.essia.arq_virtuais.domain.model.Arquivo;
 import com.essia.arq_virtuais.domain.repository.ArquivoRepository;
 import lombok.AllArgsConstructor;
@@ -15,6 +16,7 @@ import java.util.List;
 public class ArquivoService {
 
     public static final String ARQUIVO_NAO_ENCONTRADO = "Arquivo com id %d não encontrado";
+    public static final String NOME_JA_EXISTENTE_NO_DIRETORIO = "Já existe um arquivo com este nome no diretório";
 
     private final ArquivoRepository repository;
 
@@ -29,6 +31,9 @@ public class ArquivoService {
 
     @Transactional
     public Arquivo salvar(Arquivo arquivo) {
+        if(repository.existsByNomeAndDiretorio(arquivo.getNome(), arquivo.getDiretorio().getId())) {
+            throw new NegocioException(NOME_JA_EXISTENTE_NO_DIRETORIO);
+        }
         return repository.save(arquivo);
     }
 

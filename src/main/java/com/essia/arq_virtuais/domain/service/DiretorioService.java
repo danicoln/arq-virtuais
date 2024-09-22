@@ -1,6 +1,7 @@
 package com.essia.arq_virtuais.domain.service;
 
 import com.essia.arq_virtuais.domain.exception.DiretorioNaoEncontradoException;
+import com.essia.arq_virtuais.domain.exception.NegocioException;
 import com.essia.arq_virtuais.domain.model.Diretorio;
 import com.essia.arq_virtuais.domain.repository.DiretorioRepository;
 import lombok.AllArgsConstructor;
@@ -15,6 +16,8 @@ import java.util.List;
 public class DiretorioService {
 
     public static final String DIRETORIO_NAO_ENCONTRADO = "Diretorio com id %d não encontrado";
+    public static final String DIRETORIO_COM_MESMO_NOME_EXISTENTE = "Já existe um diretório com este nome no diretório atual";
+    public static final String JÁ_EXISTE_UM_DIRETÓRIO_COM_ESSE_NOME_NO_NÍVEL_SUPERIOR = "Já existe um diretório com esse nome no nível superior";
 
     private final DiretorioRepository repository;
 
@@ -29,6 +32,12 @@ public class DiretorioService {
 
     @Transactional
     public Diretorio salvar(Diretorio diretorio) {
+        if (diretorio.getDiretorioPai() != null && repository.existsByNomeAndDiretorioPai(
+                        diretorio.getNome(),
+                        diretorio.getDiretorioPai().getId())) {
+            throw new NegocioException(DIRETORIO_COM_MESMO_NOME_EXISTENTE);
+        }
+
         return repository.save(diretorio);
     }
 
@@ -42,10 +51,11 @@ public class DiretorioService {
     @Transactional
     public void remover(Long id) {
         Diretorio diretorio = buscarPorIdOuFalhar(id);
-        if (diretorio == null) {
+        if (diretorio != null) {
+            repository.deleteById(id);
+        } else {
             throw new DiretorioNaoEncontradoException(DIRETORIO_NAO_ENCONTRADO, id);
         }
-        repository.deleteById(id);
     }
 
 }
