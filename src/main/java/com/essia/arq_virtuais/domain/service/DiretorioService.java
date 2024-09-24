@@ -17,7 +17,6 @@ public class DiretorioService {
 
     public static final String DIRETORIO_NAO_ENCONTRADO = "Diretorio com id %d não encontrado";
     public static final String DIRETORIO_COM_MESMO_NOME_EXISTENTE = "Já existe um diretório com este nome no diretório atual";
-    public static final String JÁ_EXISTE_UM_DIRETÓRIO_COM_ESSE_NOME_NO_NÍVEL_SUPERIOR = "Já existe um diretório com esse nome no nível superior";
 
     private final DiretorioRepository repository;
 
@@ -33,8 +32,8 @@ public class DiretorioService {
     @Transactional
     public Diretorio salvar(Diretorio diretorio) {
         if (diretorio.getDiretorioPai() != null && repository.existsByNomeAndDiretorioPai(
-                        diretorio.getNome(),
-                        diretorio.getDiretorioPai().getId())) {
+                diretorio.getNome(),
+                diretorio.getDiretorioPai().getId())) {
             throw new NegocioException(DIRETORIO_COM_MESMO_NOME_EXISTENTE);
         }
 

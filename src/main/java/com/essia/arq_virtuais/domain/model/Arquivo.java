@@ -21,4 +21,21 @@ public class Arquivo {
     @JoinColumn(name = "diretorio_id")
     @JsonIgnore
     private Diretorio diretorio;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Arquivo arquivo = (Arquivo) o;
+
+        if (id == null && arquivo.id == null) return false;
+
+        return id != null && id.equals(arquivo.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
 }
