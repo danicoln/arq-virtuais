@@ -27,10 +27,16 @@ public class DiretorioResource {
         return ResponseEntity.ok(mapper.toModelList(diretorios));
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<DiretorioModel> buscarPorId(@PathVariable Long id) {
+        Diretorio diretorio = service.buscarPorIdOuFalhar(id);
+        return ResponseEntity.ok(mapper.toModel(diretorio));
+    }
+
     @PostMapping
     public ResponseEntity<DiretorioModel> inserir(@RequestBody DiretorioInput input) {
         Diretorio diretorio = mapper.toEntity(input);
-        DiretorioModel model = mapper.toModel(service.salvar(diretorio));
+        DiretorioModel model = mapper.toModel(service.inserir(diretorio));
         return ResponseEntity.status(HttpStatus.CREATED).body(model);
     }
 

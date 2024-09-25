@@ -61,14 +61,14 @@ class DiretorioResourceTest {
 
         when(diretorioMapper.toEntity(any(DiretorioInput.class))).thenReturn(diretorio);
         when(diretorioMapper.toModel(any(Diretorio.class))).thenReturn(model);
-        when(diretorioService.salvar(any(Diretorio.class))).thenReturn(diretorio);
+        when(diretorioService.inserir(any(Diretorio.class))).thenReturn(diretorio);
 
         mockMvc.perform(post("/api/diretorios")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"nome\": \"Diretório Teste\"}"))
                 .andExpect(status().isCreated());
 
-        verify(diretorioService, times(1)).salvar(any(Diretorio.class));
+        verify(diretorioService, times(1)).inserir(any(Diretorio.class));
     }
 
     @Test

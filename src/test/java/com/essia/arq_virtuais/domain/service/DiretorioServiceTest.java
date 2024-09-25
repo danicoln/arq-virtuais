@@ -2,7 +2,6 @@ package com.essia.arq_virtuais.domain.service;
 
 import com.essia.arq_virtuais.domain.exception.DiretorioNaoEncontradoException;
 import com.essia.arq_virtuais.domain.exception.NegocioException;
-import com.essia.arq_virtuais.domain.model.Arquivo;
 import com.essia.arq_virtuais.domain.model.Diretorio;
 import com.essia.arq_virtuais.domain.repository.DiretorioRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -73,11 +72,11 @@ class DiretorioServiceTest {
     }
 
     @Test
-    void salvar_DeveSalvarDiretorio() {
+    void salvar_DeveInserirDiretorio() {
         when(diretorioRepository.existsByNomeAndDiretorioPai(anyString(), anyLong())).thenReturn(false);
         when(diretorioRepository.save(any(Diretorio.class))).thenReturn(diretorio);
 
-        Diretorio diretorioSalvo = diretorioService.salvar(diretorio);
+        Diretorio diretorioSalvo = diretorioService.inserir(diretorio);
 
         assertNotNull(diretorioSalvo);
         assertEquals("Diretorio Teste", diretorioSalvo.getNome());
@@ -85,7 +84,7 @@ class DiretorioServiceTest {
     }
 
     @Test
-    void salvar_DeveLancarExcecaoQuandoNomeJaExistenteNoDiretorioPai() {
+    void inserir_DeveLancarExcecaoQuandoNomeJaExistenteNoDiretorioPai() {
         when(diretorioRepository.existsByNomeAndDiretorioPai(anyString(), anyLong())).thenReturn(true);
 
         Diretorio diretorioPai = new Diretorio();
@@ -96,7 +95,7 @@ class DiretorioServiceTest {
 
         NegocioException exception = assertThrows(
                 NegocioException.class,
-                () -> diretorioService.salvar(diretorio)
+                () -> diretorioService.inserir(diretorio)
         );
 
         assertEquals("Já existe um diretório com este nome no diretório atual", exception.getMessage());

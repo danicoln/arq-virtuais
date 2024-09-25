@@ -2,7 +2,6 @@ package com.essia.arq_virtuais.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,16 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Getter
 @Setter
-public class Diretorio {
+public class Diretorio extends AbstractModel {
 
-    @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String nome;
 
     @ManyToOne
     @JoinColumn(name = "diretorio_id")
@@ -31,6 +27,9 @@ public class Diretorio {
 
     @OneToMany(mappedBy = "diretorio", cascade = CascadeType.ALL)
     private List<Arquivo> arquivos = new ArrayList<>();
+
+
+
 
     @Override
     public boolean equals(Object o) {
