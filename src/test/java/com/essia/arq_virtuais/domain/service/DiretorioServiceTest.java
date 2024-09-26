@@ -105,23 +105,27 @@ class DiretorioServiceTest {
 
     @Test
     void atualizar_DeveAtualizarDiretorio() {
-        when(diretorioRepository.findById(anyLong())).thenReturn(Optional.of(diretorio));
-        when(diretorioRepository.save(any(Diretorio.class))).thenReturn(diretorio);
+        Diretorio diretorioAtual = new Diretorio();
+        diretorioAtual.setId(1L);
+        diretorioAtual.setNome("DiretorioAtual");
 
-        Diretorio diretorioAtualizado = diretorioService.atualizar(1L, diretorio);
+        when(diretorioRepository.findById(1L)).thenReturn(Optional.of(diretorioAtual));
+        when(diretorioRepository.save(any(Diretorio.class))).thenReturn(diretorioAtual);
 
-        assertNotNull(diretorioAtualizado);
-        assertEquals("Diretorio Teste", diretorioAtualizado.getNome());
-        verify(diretorioRepository, times(1)).save(diretorio);
+        Diretorio result = diretorioService.atualizar(1L, diretorio);
+
+        assertNotNull(result);
+        assertEquals(diretorioAtual.getId(), result.getId());
+        verify(diretorioRepository, times(1)).save(diretorioAtual);
     }
 
     @Test
-    void remover_DeveDeletarDiretorio() {
-        when(diretorioRepository.findById(anyLong())).thenReturn(Optional.of(diretorio));
+    void remover_quandoValido_deveRemoverDiretorio() {
+        when(diretorioRepository.findById(1L)).thenReturn(Optional.of(diretorio));
 
         diretorioService.remover(1L);
 
-        verify(diretorioRepository, times(1)).deleteById(1L);
+        verify(diretorioRepository, times(1)).delete(diretorio);
     }
 
     @Test

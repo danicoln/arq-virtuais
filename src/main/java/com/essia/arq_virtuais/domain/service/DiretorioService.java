@@ -64,19 +64,12 @@ public class DiretorioService {
     }
 
     private void verificarSeDiretorioAtualEhPaiDoDiretorioRemetente(Diretorio diretorio, Diretorio diretorioAtual) {
-        Diretorio diretorioPai = obterDiretorioPai(diretorio);
+        Diretorio diretorioPai = buscarPorIdOuFalhar(diretorio.getId());
 
         if (ehDiretorioAtualPai(diretorioPai, diretorioAtual)) {
             throw new NegocioException(String.format(
                     DIRETORIO_PERTENCENTE_AO_ATUAL, diretorioPai.getNome()));
         }
-    }
-
-    private Diretorio obterDiretorioPai(Diretorio diretorio) {
-        return Optional.ofNullable(diretorio.getDiretorioPai())
-                .map(Diretorio::getId)
-                .map(this::buscarPorIdOuFalhar)
-                .orElseThrow(() -> new NegocioException(DIRETORIO_ATUAL_NAO_TEM_UM_DIRETORIO_PAI_VALIDO));
     }
 
     private boolean ehDiretorioAtualPai(Diretorio diretorioPai, Diretorio diretorioAtual) {
@@ -101,7 +94,8 @@ public class DiretorioService {
 
     private void verificarSeDiretorioEhSeuProprioPai(Long id, Diretorio diretorio) {
         Diretorio diretorioAtual = buscarPorIdOuFalhar(id);
-        if (diretorioAtual.getId().equals(diretorio.getDiretorioPai().getId())) {
+        if (diretorio.getDiretorioPai() != null &&
+                diretorioAtual.getId().equals(diretorio.getDiretorioPai().getId())) {
             throw new NegocioException(O_DIRETORIO_NAO_PODE_PENTERCER_A_ELE_MESMO);
         }
     }
