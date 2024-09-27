@@ -1,6 +1,5 @@
 package com.essia.arq_virtuais.domain.service;
 
-import com.essia.arq_virtuais.domain.exception.ArquivoNaoEncontradoException;
 import com.essia.arq_virtuais.domain.exception.NegocioException;
 import com.essia.arq_virtuais.domain.model.Arquivo;
 import com.essia.arq_virtuais.domain.model.Diretorio;

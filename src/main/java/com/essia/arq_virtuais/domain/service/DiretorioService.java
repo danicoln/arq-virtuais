@@ -1,6 +1,7 @@
 package com.essia.arq_virtuais.domain.service;
 
 import com.essia.arq_virtuais.domain.exception.DiretorioNaoEncontradoException;
+import com.essia.arq_virtuais.domain.exception.EntidadeNaoEncontradaException;
 import com.essia.arq_virtuais.domain.exception.NegocioException;
 import com.essia.arq_virtuais.domain.model.Diretorio;
 import com.essia.arq_virtuais.domain.repository.DiretorioRepository;
@@ -19,7 +20,6 @@ public class DiretorioService {
     public static final String DIRETORIO_NAO_ENCONTRADO = "Diretorio com id %d não encontrado";
     public static final String DIRETORIO_COM_MESMO_NOME_EXISTENTE = "Já existe um diretório com este nome no diretório atual";
     public static final String O_DIRETORIO_NAO_PODE_PENTERCER_A_ELE_MESMO = "O diretório não pode pode pertencer a ele mesmo";
-    public static final String DIRETORIO_ATUAL_NAO_TEM_UM_DIRETORIO_PAI_VALIDO = "O diretório não possui um diretório pai válido";
     public static final String DIRETORIO_PERTENCENTE_AO_ATUAL = "O diretório %s pertence ao diretório atual";
 
     private final DiretorioRepository repository;

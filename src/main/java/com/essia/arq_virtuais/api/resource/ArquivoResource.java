@@ -3,7 +3,7 @@ package com.essia.arq_virtuais.api.resource;
 import com.essia.arq_virtuais.api.dto.input.ArquivoInput;
 import com.essia.arq_virtuais.api.dto.model.ArquivoModel;
 import com.essia.arq_virtuais.api.mapper.ArquivoMapper;
-import com.essia.arq_virtuais.domain.exception.ArquivoNaoEncontradoException;
+import com.essia.arq_virtuais.domain.exception.EntidadeNaoEncontradaException;
 import com.essia.arq_virtuais.domain.model.Arquivo;
 import com.essia.arq_virtuais.domain.service.ArquivoService;
 import lombok.AllArgsConstructor;
@@ -22,7 +22,7 @@ public class ArquivoResource {
     private final ArquivoMapper mapper;
 
     @GetMapping
-    public ResponseEntity<List<ArquivoModel>> listarArquivos() {
+    public ResponseEntity<List<ArquivoModel>> listar() {
         List<Arquivo> arquivos = service.listarArquivos();
         return ResponseEntity.ok(mapper.toModelList(arquivos));
     }
@@ -44,12 +44,8 @@ public class ArquivoResource {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ArquivoModel> remover(@PathVariable Long id) {
-        try {
-            service.remover(id);
-            return ResponseEntity.noContent().build();
-        } catch (ArquivoNaoEncontradoException e) {
-            return ResponseEntity.notFound().build();
-        }
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void remover(@PathVariable Long id) {
+        service.remover(id);
     }
 }

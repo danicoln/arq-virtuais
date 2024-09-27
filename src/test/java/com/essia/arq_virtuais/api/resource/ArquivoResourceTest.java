@@ -3,7 +3,6 @@ package com.essia.arq_virtuais.api.resource;
 import com.essia.arq_virtuais.api.dto.input.ArquivoInput;
 import com.essia.arq_virtuais.api.dto.model.ArquivoModel;
 import com.essia.arq_virtuais.api.mapper.ArquivoMapper;
-import com.essia.arq_virtuais.domain.exception.ArquivoNaoEncontradoException;
 import com.essia.arq_virtuais.domain.model.Arquivo;
 import com.essia.arq_virtuais.domain.service.ArquivoService;
 import org.junit.jupiter.api.BeforeEach;

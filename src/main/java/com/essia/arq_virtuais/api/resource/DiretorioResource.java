@@ -3,7 +3,6 @@ package com.essia.arq_virtuais.api.resource;
 import com.essia.arq_virtuais.api.dto.input.DiretorioInput;
 import com.essia.arq_virtuais.api.dto.model.DiretorioModel;
 import com.essia.arq_virtuais.api.mapper.DiretorioMapper;
-import com.essia.arq_virtuais.domain.exception.DiretorioNaoEncontradoException;
 import com.essia.arq_virtuais.domain.model.Diretorio;
 import com.essia.arq_virtuais.domain.service.DiretorioService;
 import lombok.AllArgsConstructor;
@@ -50,12 +49,8 @@ public class DiretorioResource {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<DiretorioModel> remover(@PathVariable Long id) {
-        try {
-            service.remover(id);
-            return ResponseEntity.noContent().build();
-        } catch (DiretorioNaoEncontradoException e) {
-            return ResponseEntity.notFound().build();
-        }
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void remover(@PathVariable Long id) {
+        service.remover(id);
     }
 }

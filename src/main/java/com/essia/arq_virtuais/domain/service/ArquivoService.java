@@ -1,6 +1,6 @@
 package com.essia.arq_virtuais.domain.service;
 
-import com.essia.arq_virtuais.domain.exception.ArquivoNaoEncontradoException;
+import com.essia.arq_virtuais.domain.exception.EntidadeNaoEncontradaException;
 import com.essia.arq_virtuais.domain.exception.NegocioException;
 import com.essia.arq_virtuais.domain.model.Arquivo;
 import com.essia.arq_virtuais.domain.repository.ArquivoRepository;
@@ -26,7 +26,7 @@ public class ArquivoService {
 
     public Arquivo buscarPorIdOuFalhar(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new ArquivoNaoEncontradoException(ARQUIVO_NAO_ENCONTRADO, id));
+                .orElseThrow(() -> new EntidadeNaoEncontradaException(String.format(ARQUIVO_NAO_ENCONTRADO, id)));
     }
 
     @Transactional
@@ -47,9 +47,6 @@ public class ArquivoService {
     @Transactional
     public void remover(Long id) {
         Arquivo arquivo = buscarPorIdOuFalhar(id);
-        if (arquivo == null) {
-            throw new ArquivoNaoEncontradoException(ARQUIVO_NAO_ENCONTRADO, id);
-        }
         repository.deleteById(id);
     }
 }
